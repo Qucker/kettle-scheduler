@@ -189,6 +189,7 @@ public class KJob {
     public String toString() {
         return "KJob{" +
                 "jobId=" + jobId +
+//                "jobId=" + 1 +
                 ", categoryId=" + categoryId +
                 ", addUser=" + addUser +
                 ", delFlag=" + delFlag +

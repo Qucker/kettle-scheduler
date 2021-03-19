@@ -1,10 +1,6 @@
 package com.zhaxd.web.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,20 +26,48 @@ public class JobMonitorService {
      * @Title getList
      * @Description 获取作业监控分页列表
      */
-    public BootTablePage getList(Integer start, Integer size, Integer monitorStatus, Integer categoryId, String jobName, Integer uId) {
+    public BootTablePage getList(Integer start, Integer size, Integer monitorStatus, Integer categoryId, String jobName, Integer uId,Integer uIdnow) {
         KJobMonitor template = new KJobMonitor();
+//        初始界面默认只显示自己账户创建的调度，筛选器可选择其他用户创建的调度
+        if (uId==null){
+            uId=uIdnow;
+        }
         template.setAddUser(uId);
         template.setMonitorStatus(monitorStatus);
         if(StringUtils.isNotEmpty(jobName)){
             template.setJobName(jobName);
         }
-        List<KJobMonitor> kJobMonitorList = kJobMonitorDao.pageQuery(template, start, size,categoryId);
-        Long allCount = kJobMonitorDao.allCount(template,categoryId);
+        List<KJobMonitor> kJobMonitorList = kJobMonitorDao.pageQuery(template, start, size,categoryId,uId);
+        Long allCount = kJobMonitorDao.allCount(template,categoryId,uId);
         BootTablePage bootTablePage = new BootTablePage();
         bootTablePage.setRows(kJobMonitorList);
         bootTablePage.setTotal(allCount);
         return bootTablePage;
     }
+
+
+//    /**
+//     * @param start 起始行数
+//     * @param size  每页数据条数
+//     * @param uId   用户ID
+//     * @return BootTablePage
+//     * @Title getList
+//     * @Description 获取作业监控分页列表
+//     */
+//    public BootTablePage getLists(Integer start, Integer size, Integer monitorStatus, Integer categoryId, String jobName, Integer uId) {
+//        KJobMonitor template = new KJobMonitor();
+//        template.setAddUser(uId);
+//        template.setMonitorStatus(monitorStatus);
+//        if(StringUtils.isNotEmpty(jobName)){
+//            template.setJobName(jobName);
+//        }
+//        List<KJobMonitor> kJobMonitorList = kJobMonitorDao.pageQuery(template, start, size,categoryId,uId);
+//        Long allCount = kJobMonitorDao.allCount(template,categoryId,uId);
+//        BootTablePage bootTablePage = new BootTablePage();
+//        bootTablePage.setRows(kJobMonitorList);
+//        bootTablePage.setTotal(allCount);
+//        return bootTablePage;
+//    }
 
     /**
      * @param uId   用户ID
@@ -135,16 +159,27 @@ public class JobMonitorService {
             resultList.add(i, 0);
         }
         if (kJobMonitorList != null && !kJobMonitorList.isEmpty()) {
+//            StringBuilder runStatusBuilder = new StringBuilder();
             for (KJobMonitor KJobMonitor : kJobMonitorList) {
                 String runStatus = KJobMonitor.getRunStatus();
                 if (runStatus != null && runStatus.contains(",")) {
                     String[] startList = runStatus.split(",");
                     for (String startOnce : startList) {
                         String[] startAndStopTime = startOnce.split(Constant.RUNSTATUS_SEPARATE);
-                        if (startAndStopTime.length != 2)
-                            continue;
+                        String starttime =startAndStopTime[0];
+                        String stoptime;
+//                        判断job是否正在执行，若正在执行 stoptime 设置为今天
+                        if (startAndStopTime.length != 2) {
+                            Long today = new Date().getTime();
+                            stoptime = today.toString();
+//                            continue;
+                        }
+                        else {
+                            stoptime =startAndStopTime[1];
+                        }
                         //得到一次任务的起始时间和结束时间的毫秒值
-                        resultList = CommonUtils.getEveryDayData(Long.parseLong(startAndStopTime[0]), Long.parseLong(startAndStopTime[1]), resultList);
+//                        resultList = CommonUtils.getEveryDayData(Long.parseLong(startAndStopTime[0]), Long.parseLong(startAndStopTime[1]), resultList);
+                        resultList = CommonUtils.getEveryDayData(Long.parseLong(starttime), Long.parseLong(stoptime), resultList);
                     }
                 }
             }

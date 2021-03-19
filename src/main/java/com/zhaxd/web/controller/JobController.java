@@ -30,7 +30,10 @@ public class JobController {
     @RequestMapping("getSimpleList.shtml")
     public String getSimpleList(HttpServletRequest request) {
         KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_ID);
-        return JsonUtils.objectToJson(jobService.getList(kUser.getuId()));
+        return JsonUtils.objectToJson(jobService.getList(
+//                kUser.getuId()
+//                所有用户均可以查看所有作业转换的调度记录，无论是否为自己创建
+                ));
     }
 
 

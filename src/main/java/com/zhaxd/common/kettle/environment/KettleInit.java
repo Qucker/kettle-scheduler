@@ -22,13 +22,15 @@ import org.pentaho.di.i18n.BaseMessages;
 import org.pentaho.di.trans.step.RowDistributionPluginType;
 
 import com.zhaxd.common.toolkit.Constant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
  * <p>
  * Kettle环境初始化.
  * </p>
- * 
+ *
  * @author zhaxd
  * @Date Mar 19, 2014
  * @Time 11:45:33
@@ -43,9 +45,9 @@ public class KettleInit {
 
 	/**
 	 * 初始化Kettle环境。 此方法将尝试配置 简单的JNDI， 通过简单地调用init(true)。
-	 * 
+	 *
 	 * @see #KettleEnvironment.init(boolean)
-	 * 
+	 *
 	 * @throws KettleException
 	 *             在初始化过程中发生的任何错误都将抛出 KettleException。
 	 */
@@ -55,11 +57,11 @@ public class KettleInit {
 
 	/**
 	 * 初始化Ketle环境。此方法执行以下 操作：
-	 * 
+	 *
 	 * 创建一个Kettle "home" 的目录，如果它已经不存在 - 读取 在kettle.properties文件 - 初始化记录后端 - 设置
 	 * 控制台日志级别调试 - 如果指定的参数，配置 简单的JNDI - 寄存器的各种原生类型和插件 插件类型 - 读取变量列表 - 初始化生命周期
 	 * 启动监听程序等
-	 * 
+	 *
 	 * @param simpleJndi
 	 *            ， 真正简单的JNDI配置，否则返回false
 	 * @throws KettleException
@@ -80,12 +82,12 @@ public class KettleInit {
 				JndiUtil.initJNDI();
 			}
 			// 注册原生类型和各个所需的插件
-			PluginRegistry.addPluginType(RowDistributionPluginType.getInstance());			
-	        PluginRegistry.addPluginType(LogTablePluginType.getInstance());	        
+			PluginRegistry.addPluginType(RowDistributionPluginType.getInstance());
+	        PluginRegistry.addPluginType(LogTablePluginType.getInstance());
 	        PluginRegistry.addPluginType(CartePluginType.getInstance());
 	        PluginRegistry.addPluginType(CompressionPluginType.getInstance());
 	        PluginRegistry.addPluginType(AuthenticationProviderPluginType.getInstance());
-	        PluginRegistry.addPluginType(AuthenticationConsumerPluginType.getInstance());			
+	        PluginRegistry.addPluginType(AuthenticationConsumerPluginType.getInstance());
 			PluginRegistry.addPluginType(StepPluginType.getInstance());
 			PluginRegistry.addPluginType(PartitionerPluginType.getInstance());
 			PluginRegistry.addPluginType(JobEntryPluginType.getInstance());
@@ -106,10 +108,11 @@ public class KettleInit {
 
 	/**
 	 * 提醒所有生命周期的插件水壶环境。 初始化。
-	 * 
+	 *
 	 * @throws KettleException
 	 *             当一个生命周期侦听器抛出一个异常
 	 */
+	private final static Logger log = LoggerFactory.getLogger(KettleInit.class.getName());
 	private static void initLifecycleListeners() throws KettleException {
 		final KettleLifecycleSupport s = new KettleLifecycleSupport();
 		s.onEnvironmentInit();
@@ -122,7 +125,8 @@ public class KettleInit {
 					System.err.println(BaseMessages
 							.getString(PKG,
 									"LifecycleSupport.ErrorInvokingKettleEnvironmentShutdownListeners"));
-					e.printStackTrace();
+//					e.printStackTrace();
+					log.error("", e);
 				}
 			};
 		});
@@ -141,12 +145,13 @@ public class KettleInit {
 			// 创建属性文件 kettle.properties
 			createDefaultKettleProperties(directory);
 		} catch (Exception e) {
+			log.error("", e);
 		}
 	}
 
 	/**
 	 * 创建默认的 kettle properties 文件
-	 * 
+	 *
 	 * @param 目录
 	 *            目录
 	 */
@@ -187,12 +192,12 @@ public class KettleInit {
 
 	/**
 	 * Checks if the Kettle environment has been initialized.
-	 * 
+	 *
 	 * @return true if initialized, false otherwise
 	 */
 	/**
 	 * 检查Kettle 环境初始化。
-	 * 
+	 *
 	 * @return 返回 true or false
 	 */
 	public static boolean isInitialized() {
@@ -204,7 +209,7 @@ public class KettleInit {
 
 	/**
 	 * 加载插件注册表。
-	 * 
+	 *
 	 * @throws KettlePluginException
 	 *             加载插件如果遇到任何错误返回KettlePluginException
 	 */
@@ -214,7 +219,7 @@ public class KettleInit {
 
 	/**
 	 * 初始化环境变量。
-	 * 
+	 *
 	 * @throws KettleException
 	 *             初始化如果遇到任何错误返回KettleException
 	 */

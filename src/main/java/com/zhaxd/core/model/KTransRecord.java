@@ -17,45 +17,45 @@ public class KTransRecord {
 	private Date startTime ;
 	//停止时间
 	private Date stopTime ;
-	
+
 	public KTransRecord() {
 	}
-	
+
 	public Integer getRecordId(){
 		return  recordId;
 	}
 	public void setRecordId(Integer recordId ){
 		this.recordId = recordId;
 	}
-	
+
 	public Integer getRecordStatus(){
 		return  recordStatus;
 	}
 	public void setRecordStatus(Integer recordStatus ){
 		this.recordStatus = recordStatus;
 	}
-	
+
 	public Integer getRecordTrans(){
 		return  recordTrans;
 	}
 	public void setRecordTrans(Integer recordTrans ){
 		this.recordTrans = recordTrans;
 	}
-	
+
 	public String getLogFilePath(){
 		return  logFilePath;
 	}
 	public void setLogFilePath(String logFilePath ){
 		this.logFilePath = logFilePath;
 	}
-	
+
 	public Date getStartTime(){
 		return  startTime;
 	}
 	public void setStartTime(Date startTime ){
 		this.startTime = startTime;
 	}
-	
+
 	public Date getStopTime(){
 		return  stopTime;
 	}

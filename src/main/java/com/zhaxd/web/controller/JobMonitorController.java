@@ -20,9 +20,9 @@ public class JobMonitorController {
     private JobMonitorService jobMonitorService;
 
     @RequestMapping("getList.shtml")
-    public String getList(Integer offset, Integer limit, Integer monitorStatus, Integer categoryId, String jobName, HttpServletRequest request) {
+    public String getList(Integer offset, Integer limit, Integer monitorStatus,Integer userId, Integer categoryId, String jobName, HttpServletRequest request) {
         KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_ID);
-        BootTablePage list = jobMonitorService.getList(offset, limit, monitorStatus,categoryId, jobName, kUser.getuId());
+        BootTablePage list = jobMonitorService.getList(offset, limit, monitorStatus,categoryId, jobName, userId,kUser.getuId());
         return JsonUtils.objectToJson(list);
     }
 
@@ -43,4 +43,28 @@ public class JobMonitorController {
         KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_ID);
         return JsonUtils.objectToJson(jobMonitorService.getAllFail(kUser.getuId()));
     }
+//    /***
+//     *
+//     * @param date
+//     * @param dateFormat : e.g:yyyy-MM-dd HH:mm:ss
+//     * @return
+//     */
+//    public static String formatDateByPattern(Date date,String dateFormat){
+//        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+//        String formatTimeStr = null;
+//        if (date != null) {
+//            formatTimeStr = sdf.format(date);
+//        }
+//        return formatTimeStr;
+//    }
+//    /***
+//     * convert Date to cron ,eg.  "0 07 10 15 1 ? 2016"
+//     * @param date  : 时间点
+//     * @return
+//     */
+//    public static String getCron(java.util.Date  date){
+//        String dateFormat="ss mm HH dd MM ? yyyy";
+//        return formatDateByPattern(date, dateFormat);
+//    }
+
 }

@@ -1,8 +1,10 @@
 package com.zhaxd.web.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.math.stat.descriptive.moment.Kurtosis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ public class UserService {
 
 	@Autowired
 	private KUserDao kUserDao;
-		
+
 	/**
 	 * @Title login
 	 * @Description 登陆
@@ -24,7 +26,7 @@ public class UserService {
 	 * @return
 	 * @return KUser
 	 */
-	public KUser login(KUser kUser){		
+	public KUser login(KUser kUser){
 		KUser template = new KUser();
 		template.setDelFlag(1);
 		template.setuAccount(kUser.getuAccount());
@@ -37,7 +39,7 @@ public class UserService {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @Title isAdmin
 	 * @Description 用户是否为管理员
@@ -50,16 +52,25 @@ public class UserService {
 		if ("admin".equals(kUser.getuAccount())){
 			return true;
 		}else {
-			return false;	
+			return false;
 		}
 	}
-	
+
+
+	public List<KUser> getUsername(){
+		List<KUser> resultList = new ArrayList<KUser>();
+		KUser kUser = new KUser();
+		kUser.setDelFlag(1);
+		resultList.addAll(kUserDao.template(kUser));
+		return resultList;
+	}
+
 	/**
 	 * @Title getList
 	 * @Description 获取用户分页列表
 	 * @param start 其实行数
 	 * @param size 每页显示行数
-	 * @return 
+	 * @return
 	 * @return BootTablePage
 	 */
 	public BootTablePage getList(Integer start, Integer size){
@@ -72,7 +83,7 @@ public class UserService {
 		bootTablePage.setTotal(allCount);
 		return bootTablePage;
 	}
-	
+
 	/**
 	 * @Title delete
 	 * @Description 删除用户
@@ -84,7 +95,7 @@ public class UserService {
 		kUser.setDelFlag(0);
 		kUserDao.updateById(kUser);
 	}
-	
+
 	/**
 	 * @Title insert
 	 * @Description 插入一个用户

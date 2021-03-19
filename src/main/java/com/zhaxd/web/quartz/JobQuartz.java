@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 
+import com.zhaxd.common.kettle.Main;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.beetl.sql.core.ClasspathLoader;
@@ -18,6 +19,7 @@ import org.beetl.sql.core.UnderlinedNameConversion;
 import org.beetl.sql.core.db.DBStyle;
 import org.beetl.sql.core.db.MySqlStyle;
 import org.beetl.sql.ext.DebugInterceptor;
+import org.jfree.util.Log;
 import org.pentaho.di.core.ProgressNullMonitorListener;
 import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.core.exception.KettleMissingPluginsException;
@@ -36,11 +38,13 @@ import com.zhaxd.core.model.KJobMonitor;
 import com.zhaxd.core.model.KJobRecord;
 import com.zhaxd.core.model.KRepository;
 import com.zhaxd.web.quartz.model.DBConnectionModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @DisallowConcurrentExecution
 public class JobQuartz implements InterruptableJob {
     private org.pentaho.di.job.Job job;
-
+    private final static Logger log = LoggerFactory.getLogger(JobQuartz.class.getName());
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
@@ -64,13 +68,14 @@ public class JobQuartz implements InterruptableJob {
                     runRepositoryJob(KRepositoryObject, DbConnectionObject, jobId, jobPath, jobName, userId, logLevel,
                             logFilePath, lastExecuteTime, nexExecuteTime);
                 } catch (KettleException e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
+                    log.error("",e);
                 }
             } else {
                 try {
                     runFileJob(DbConnectionObject, jobId, jobPath, jobName, userId, logLevel, logFilePath, lastExecuteTime, nexExecuteTime);
                 } catch (KettleXMLException | KettleMissingPluginsException e) {
-                    e.printStackTrace();
+                    log.error("",e);
                 }
             }
         }

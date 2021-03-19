@@ -28,13 +28,13 @@ public class MainController {
 
 	@Autowired
 	private TransMonitorService transMonitorService;
-	
+
 	@Autowired
 	private JobMonitorService jobMonitorService;
-	
+
 	/**
 	 * @Title allRuning
-	 * @Description 
+	 * @Description
 	 * @param request
 	 * @return
 	 * @return String
@@ -44,10 +44,27 @@ public class MainController {
 		KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_ID);
 		Integer allMonitorTrans = transMonitorService.getAllMonitorTrans(kUser.getuId());
 		Integer allMonitorJob = jobMonitorService.getAllMonitorJob(kUser.getuId());
-		Integer allRuning = allMonitorTrans + allMonitorJob; 
+		Integer allRuning = allMonitorTrans + allMonitorJob;
 		return JsonUtils.objectToJson(allRuning);
 	}
-	
+
+
+//	/**
+//	 * @Title allRuningToday
+//	 * @Description
+//	 * @param request
+//	 * @return
+//	 * @return String
+//	 */
+//	@RequestMapping("allRuningToday.shtml")
+//	public String allRuningToday(HttpServletRequest request){
+//		KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_ID);
+//		Integer allMonitorTransToday = transMonitorService.getAllMonitorTransToday(kUser.getuId());
+//		Integer allMonitorJobToday = jobMonitorService.getAllMonitorJob(kUser.getuId());
+//		Integer allRuningToday = allMonitorTransToday + allMonitorJobToday;
+//		return JsonUtils.objectToJson(allRuningToday);
+//	}
+
 	/**
 	 * @Title getTransList
 	 * @Description 获取转换的Top5
@@ -61,7 +78,7 @@ public class MainController {
 		BootTablePage list = transMonitorService.getList(kUser.getuId());
 		return JsonUtils.objectToJson(list);
 	}
-	
+
 	/**
 	 * @Title getJobList
 	 * @Description 获取作业的Top5
@@ -75,17 +92,17 @@ public class MainController {
 		BootTablePage list = jobMonitorService.getList(kUser.getuId());
 		return JsonUtils.objectToJson(list);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @Title getKettleLine
 	 * @Description TODO
 	 * @return
 	 * @return String
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
 	@RequestMapping("getKettleLine.shtml")
-	public String getKettleLine(HttpServletRequest request){		
+	public String getKettleLine(HttpServletRequest request){
 		KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_ID);
 		Map<String,Object> resultMap = new HashMap<String, Object>();
 		List<String> dateList = new ArrayList<String>();

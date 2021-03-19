@@ -20,13 +20,13 @@ import com.zhaxd.core.model.KRepositoryType;
 @Service
 public class DataBaseRepositoryService {
 
-	
+
 	@Autowired
 	private KRepositoryDao kRepositoryDao;
-	
+
 	@Autowired
-	private KRepositoryTypeDao kRepositoryTypeDao; 
-	
+	private KRepositoryTypeDao kRepositoryTypeDao;
+
 	/**
 	 * @Title getRepositoryTreeList
 	 * @Description 获取数据库资源库的树形菜单
@@ -46,11 +46,11 @@ public class DataBaseRepositoryService {
 		}
 		if (null != kettleDatabaseRepository){
 			List<RepositoryTree> repositoryTreeList = new ArrayList<RepositoryTree>();
-			allRepositoryTreeList = RepositoryUtil.getAllDirectoryTreeList(kettleDatabaseRepository, "/", repositoryTreeList);	
+			allRepositoryTreeList = RepositoryUtil.getAllDirectoryTreeList(kettleDatabaseRepository, "/", repositoryTreeList);
 		}
 		return allRepositoryTreeList;
 	}
-	
+
 	/**
 	 * @Title ckeck
 	 * @Description 判断是否可以连接上资源库
@@ -65,13 +65,13 @@ public class DataBaseRepositoryService {
 			if (kettleDatabaseRepository.isConnected()){
 				return true;
 			}else{
-				return false;	
+				return false;
 			}
 		}else{
 			return false;
 		}
 	}
-	
+
 	/**
 	 * @Title getList
 	 * @Description 获取列表，不分页
@@ -83,10 +83,10 @@ public class DataBaseRepositoryService {
 	public List<KRepository> getList(Integer uId) throws KettleException{
 		KRepository kRepository = new KRepository();
 		kRepository.setAddUser(uId);
-		kRepository.setDelFlag(1);		
+		kRepository.setDelFlag(1);
 		return kRepositoryDao.template(kRepository);
 	}
-	
+
 	/**
 	 * @Title getList
 	 * @Description 获取列表带分页
@@ -99,7 +99,7 @@ public class DataBaseRepositoryService {
 	public BootTablePage getList(Integer start, Integer size, Integer uId){
 		KRepository kRepository = new KRepository();
 		kRepository.setAddUser(uId);
-		kRepository.setDelFlag(1);	
+		kRepository.setDelFlag(1);
 		List<KRepository> kRepositoryList = kRepositoryDao.template(kRepository);
 		long allCount = kRepositoryDao.templateCount(kRepository);
 		BootTablePage bootTablePage = new BootTablePage();
@@ -107,17 +107,18 @@ public class DataBaseRepositoryService {
 		bootTablePage.setTotal(allCount);
 		return bootTablePage;
 	}
-	
+
 	/**
 	 * @Title getRepositoryTypeList
 	 * @Description 获取资源库类别列表
-	 * @return 
+	 * @return
 	 * @return List<KRepositoryType>
 	 */
+
 	public List<KRepositoryType> getRepositoryTypeList(){
 		return kRepositoryTypeDao.all();
 	}
-	
+
 	/**
 	 * @Title getKRepository
 	 * @Description 获取资源库对象
@@ -129,17 +130,17 @@ public class DataBaseRepositoryService {
 		//如果根据主键没有获取到对象，返回null
 		return kRepositoryDao.single(repositoryId);
 	}
-	
+
 	/**
 	 * @Title getAccess
 	 * @Description 获取资源库访问类型
-	 * @return 
+	 * @return
 	 * @return String[]
 	 */
 	public String[] getAccess(){
 		return RepositoryUtil.getDataBaseAccess();
 	}
-	
+
 	/**
 	 * @Title insert
 	 * @Description 插入资源库
@@ -155,7 +156,7 @@ public class DataBaseRepositoryService {
 		kRepository.setDelFlag(1);
 		kRepositoryDao.insert(kRepository);
 	}
-	
+
 	/**
 	 * @Title update
 	 * @Description 更新资源库

@@ -1,7 +1,10 @@
 package com.zhaxd.web.quartz;
 
+import com.zhaxd.common.kettle.Main;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.Map;
@@ -10,6 +13,8 @@ import java.util.Map;
 public class QuartzManager {
 
     private static SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+
+    private final static Logger log = LoggerFactory.getLogger(QuartzManager.class.getName());
 
     /**
      * @param jobName          任务名
@@ -48,13 +53,14 @@ public class QuartzManager {
             CronTrigger trigger = (CronTrigger) triggerBuilder.build();
             // 调度容器设置JobDetail和Trigger
             sched.scheduleJob(jobDetail, trigger);
-            // 启动  
+            // 启动
             if (!sched.isShutdown()) {
                 sched.start();
             }
             return trigger.getNextFireTime();
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            log.error("",e);
             return null;
         }
     }
@@ -132,12 +138,12 @@ public class QuartzManager {
             String oldTime = trigger.getCronExpression();
             if (!oldTime.equalsIgnoreCase(cron)) {
                 /** 方式一 ：调用 rescheduleJob 开始 */
-                // 触发器  
+                // 触发器
                 TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
-                // 触发器名,触发器组  
+                // 触发器名,触发器组
                 triggerBuilder.withIdentity(triggerName, triggerGroupName);
                 triggerBuilder.startNow();
-                // 触发器时间设定  
+                // 触发器时间设定
                 triggerBuilder.withSchedule(CronScheduleBuilder.cronSchedule(cron));
                 // 创建Trigger对象
                 trigger = (CronTrigger) triggerBuilder.build();
@@ -146,10 +152,10 @@ public class QuartzManager {
                 /** 方式一 ：调用 rescheduleJob 结束 */
 
                 /** 方式二：先删除，然后在创建一个新的Job  */
-                //JobDetail jobDetail = sched.getJobDetail(JobKey.jobKey(jobName, jobGroupName));  
-                //Class<? extends Job> jobClass = jobDetail.getJobClass();  
-                //removeJob(jobName, jobGroupName, triggerName, triggerGroupName);  
-                //addJob(jobName, jobGroupName, triggerName, triggerGroupName, jobClass, cron); 
+                //JobDetail jobDetail = sched.getJobDetail(JobKey.jobKey(jobName, jobGroupName));
+                //Class<? extends Job> jobClass = jobDetail.getJobClass();
+                //removeJob(jobName, jobGroupName, triggerName, triggerGroupName);
+                //addJob(jobName, jobGroupName, triggerName, triggerGroupName, jobClass, cron);
                 /** 方式二 ：先删除，然后在创建一个新的Job */
             }
         } catch (Exception e) {
@@ -169,7 +175,7 @@ public class QuartzManager {
         try {
             Scheduler sched = schedulerFactory.getScheduler();
             TriggerKey triggerKey = TriggerKey.triggerKey(triggerName, triggerGroupName);
-            sched.pauseTrigger(triggerKey);// 停止触发器  
+            sched.pauseTrigger(triggerKey);// 停止触发器
             sched.unscheduleJob(triggerKey);// 移除触发器
             sched.interrupt(JobKey.jobKey(jobName, jobGroupName));
             sched.deleteJob(JobKey.jobKey(jobName, jobGroupName));// 删除任务

@@ -9,9 +9,9 @@ import java.util.List;
 
 
 public interface KJobMonitorDao extends BaseMapper<KJobMonitor> {
-    @SqlStatement(params = "kJobMonitor,start,size,categoryId")
-    List<KJobMonitor> pageQuery(KJobMonitor kJobMonitor, Integer start, Integer size, Integer categoryId);
+    @SqlStatement(params = "kJobMonitor,start,size,categoryId,userId")
+    List<KJobMonitor> pageQuery(KJobMonitor kJobMonitor, Integer start, Integer size, Integer categoryId,Integer userId);
 
-    @SqlStatement(params = "kJobMonitor,categoryId")
-    Long allCount(KJobMonitor kJobMonitor, Integer categoryId);
+    @SqlStatement(params = "kJobMonitor,categoryId,userId")
+    Long allCount(KJobMonitor kJobMonitor, Integer categoryId,Integer userId);
 }

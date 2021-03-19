@@ -26,6 +26,7 @@ public class KettleMasterException extends RuntimeException {
 	/**
 	 * 将CheckedException转换为UncheckedException.
 	 */
+
 	public static RuntimeException unchecked(Exception e) {
 		if (e instanceof RuntimeException) {
 			return (RuntimeException) e;
@@ -37,6 +38,7 @@ public class KettleMasterException extends RuntimeException {
 	/**
 	 * 将ErrorStack转化为String.
 	 */
+
 	public static String getStackTraceAsString(Exception e) {
 		StringWriter stringWriter = new StringWriter();
 		e.printStackTrace(new PrintWriter(stringWriter));

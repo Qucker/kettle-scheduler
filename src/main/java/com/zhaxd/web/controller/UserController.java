@@ -1,7 +1,9 @@
 package com.zhaxd.web.controller;
 
 import com.zhaxd.common.toolkit.Constant;
+import com.zhaxd.core.model.KCategory;
 import com.zhaxd.core.model.KUser;
+import org.apache.commons.math.stat.descriptive.moment.Kurtosis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +15,8 @@ import com.zhaxd.web.utils.JsonUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user/")
@@ -20,21 +24,26 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@RequestMapping("getList.shtml")
 	public String getList(Integer offset, Integer limit){
 		return JsonUtils.objectToJson(userService.getList(offset, limit));
 	}
-	
+
+	@RequestMapping("getSimpleList.shtml")
+	public String simpleList(HttpServletRequest request){
+		return JsonUtils.objectToJson(userService.getUsername());
+	}
+
+
 	@RequestMapping("delete.shtml")
 	public String delete(Integer uId){
 		userService.delete(uId);
 		return ResultDto.success();
 	}
-	
+
 	@RequestMapping("resetPassword.shtml")
 	public String resetPassword(){
-		
 		return ResultDto.success();
 	}
 	@RequestMapping("insert.shtml")

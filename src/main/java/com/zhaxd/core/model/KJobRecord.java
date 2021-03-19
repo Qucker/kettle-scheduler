@@ -17,45 +17,45 @@ public class KJobRecord {
 	private Date startTime ;
 	//停止时间
 	private Date stopTime ;
-	
+
 	public KJobRecord() {
 	}
-	
+
 	public Integer getRecordId(){
 		return  recordId;
 	}
 	public void setRecordId(Integer recordId ){
 		this.recordId = recordId;
 	}
-	
+
 	public Integer getRecordJob(){
 		return  recordJob;
 	}
 	public void setRecordJob(Integer recordJob ){
 		this.recordJob = recordJob;
 	}
-	
+
 	public Integer getRecordStatus(){
 		return  recordStatus;
 	}
 	public void setRecordStatus(Integer recordStatus ){
 		this.recordStatus = recordStatus;
 	}
-	
+
 	public String getLogFilePath(){
 		return  logFilePath;
 	}
 	public void setLogFilePath(String logFilePath ){
 		this.logFilePath = logFilePath;
 	}
-	
+
 	public Date getStartTime(){
 		return  startTime;
 	}
 	public void setStartTime(Date startTime ){
 		this.startTime = startTime;
 	}
-	
+
 	public Date getStopTime(){
 		return  stopTime;
 	}

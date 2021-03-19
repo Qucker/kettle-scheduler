@@ -3,15 +3,18 @@ package com.zhaxd.common.toolkit;
 import java.io.FileInputStream;
 import java.util.Properties;
 
+import com.zhaxd.common.kettle.Main;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.logging.LogLevel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * 
- * @ClassName Constant 
- * @Description 常量类 
+ *
+ * @ClassName Constant
+ * @Description 常量类
  * @author zhaxd
- * @date 2017年5月28日 下午3:33:55 
+ * @date 2017年5月28日 下午3:33:55
  */
 public class Constant extends Const {
 
@@ -21,7 +24,7 @@ public class Constant extends Const {
 	public static final String DEFAULT_TIMEZONE = "GMT+8";
 	public static final String UKETTLE = "resource/kettle.properties";
 	public static final String SESSION_ID = "SESSION_ID";
-	
+
 	public static final String STATUS_ENABLED = "ENABLED";
 	public static final String STATUS_DISABLED = "DISABLED";
 	public static final String STATUS_FINISHED = "FINISHED";
@@ -30,7 +33,7 @@ public class Constant extends Const {
 	public static final String STATUS_ERROR = "ERROR";
 	public static final String STATUS_AGAIN = "AGAIN";
 	public static final String STATUS_COMPLETE = "COMPLETE";
-	
+
 	public static final String FORMAT_JSON = "json";
 	public static final String FORMAT_XML = "xml";
 	public static final String FORMAT_STREAM = "stream";
@@ -52,15 +55,15 @@ public class Constant extends Const {
 	public static final String SPLIT_EQUAL = "=";
 	public static final String SPLIT_USD = "$";
 	public static final String KETTLE_REPO = "repo";
-	
+
 	/** quartz **/
-	
+
 	public static final String JOB_PREFIX = "JOB";
 	public static final String JOB_GROUP_PREFIX = "JOB_GROUP";
 	public static final String TRIGGER_PREFIX = "TRIGGER";
 	public static final String TRIGGER_GROUP_PREFIX = "TRIGGER_GROUP";
 	public static final String QUARTZ_SEPARATE = "@";
-	
+
 	/** quartz parameter **/
 	public static final String REPOSITORYOBJECT = "REPOSITORYOBJECT";
 	public static final String DBCONNECTIONOBJECT = "DBCONNECTIONOBJECT";
@@ -74,9 +77,11 @@ public class Constant extends Const {
 	public static final String USERID = "USERID";
 	public static final String LOGLEVEL = "LOGLEVEL";
 	public static final String LOGFILEPATH = "LOGFILEPATH";
-	
+
 	public static final String RUNSTATUS_SEPARATE = "-";
-	
+
+	private final static Logger log = LoggerFactory.getLogger(Constant.class.getName());
+
 	public static String KETTLE_HOME;
 	public static String KETTLE_PLUGIN;
 	public static String KETTLE_SCRIPT;
@@ -112,8 +117,10 @@ public class Constant extends Const {
 					.getPath().replace("%20", " ")
 					+ UKETTLE));
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			log.error("", e);
 		}
+
 		return p;
 	}
 

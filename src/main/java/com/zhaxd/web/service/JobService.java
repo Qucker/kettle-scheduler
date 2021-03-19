@@ -94,14 +94,16 @@ public class JobService {
     }
 
     /**
-     * @param uId 用户ID
+//     * @param uId 用户ID
      * @return List<KJob>
      * @Title getList
      * @Description 获取列表
      */
-    public List<KJob> getList(Integer uId) {
+    public List<KJob> getList(
+//            Integer uId
+    ) {
         KJob template = new KJob();
-        template.setAddUser(uId);
+//        template.setAddUser(uId);
         template.setDelFlag(1);
         return kJobDao.template(template);
     }

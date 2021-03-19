@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 public class MD5Utils {
 
 	private static String salt = "kettlescheduler";
-	
+
 	/**
 	 * 加密字符串
 	 * @param password 要加密的明文
@@ -22,11 +22,11 @@ public class MD5Utils {
 				return DigestUtils.md5Hex(DigestUtils.md5(password));
 			}
 		}
-		return null;		
+		return null;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param bytes
 	 * @return
 	 */
@@ -36,21 +36,23 @@ public class MD5Utils {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * MD5加盐加密
 	 * @param password 要加密的明文
 	 * @param salt 盐
 	 * @return 加密之后的结果
 	 */
+
 	public static String Encrypt(String password, String salt){
 		if (StringUtils.isNotEmpty(password)){
 			return DigestUtils.md5Hex(DigestUtils.md5(password + salt));
 		}
-		return null;			
+		return null;
 	}
-	
+
 	public static void main(String[] args){
-		System.out.println(MD5Utils.Encrypt("admin", true));		
+		System.out.println(MD5Utils.Encrypt("admin", true));
+//		System.out.println(MD5Utils.Encrypt("GszT.Pc#12", true));
 	}
 }

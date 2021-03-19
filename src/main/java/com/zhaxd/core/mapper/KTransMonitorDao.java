@@ -14,4 +14,9 @@ public interface KTransMonitorDao extends BaseMapper<KTransMonitor> {
 
     @SqlStatement(params = "kTransMonitor,categoryId")
     Long allCount(KTransMonitor kTransMonitor, Integer categoryId);
+
+//    @SqlStatement(params = "kTransMonitor")
+//    List<KTransMonitor> allTransToday(KTransMonitor kTransMonitor);
+
+
 }

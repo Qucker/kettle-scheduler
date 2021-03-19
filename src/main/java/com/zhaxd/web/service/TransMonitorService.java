@@ -1,10 +1,12 @@
 package com.zhaxd.web.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import com.zhaxd.core.dto.BootTablePage;
 import com.zhaxd.core.mapper.KTransMonitorDao;
 import com.zhaxd.core.model.KTransMonitor;
 import com.zhaxd.web.utils.CommonUtils;
+
+import static mondrian.spi.Dialect.Datatype.Date;
 
 @Service
 public class TransMonitorService {
@@ -84,6 +88,23 @@ public class TransMonitorService {
         List<KTransMonitor> kTransMonitorList = kTransMonitorDao.template(template);
         return kTransMonitorList.size();
     }
+
+//    /**
+//     * @param uId 用户ID
+//     * @return Integer
+//     * @Title getAllMonitorTrans
+//     * @Description 获取今日的转换
+//     */
+//    public Integer getAllMonitorTransToday(Integer uId) {
+//        KTransMonitor template = new KTransMonitor();
+//        template.setAddUser(uId);
+//        template.setMonitorStatus(1);
+//        template.setLastExecuteTime(); //获取当天日期
+//        List<KTransMonitor> kTransMonitorList = kTransMonitorDao.template(template);
+//        return kTransMonitorList.size();
+//    }
+
+
 
     /**
      * @param uId 用户ID
